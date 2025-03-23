@@ -1,4 +1,95 @@
-<<<<<<< HEAD
+# **StarScope - Celebrity Public Opinion Analysis Platform**
+
+StarScope is a modern celebrity public opinion analysis platform dedicated to providing users with comprehensive and objective information about public figures. By integrating data from multiple sources, we present users with opinion trends, related news, and social media activity of celebrities, helping them better understand the social influence of public figures.
+
+## ✨ **Key Features**
+
+- 🔍 **Smart Search**: Quickly find celebrity information with fuzzy search and real-time suggestions.
+- 📊 **Opinion Trends**: Visualize public opinion trends to gain intuitive insights into public perception.
+- 📰 **News Aggregation**: Stay up to date with the latest news reports in real time.
+- 🌐 **Social Media Integration**: Track celebrity activity across social media platforms.
+- 👥 **Related Figures**: Smart recommendations for related public figures to expand information access.
+- 💫 **Personalization**: Features such as favorites, browsing history, and customized user experience.
+
+---
+
+## 🚀 **Getting Started**
+
+### **System Requirements**
+
+- Node.js 18.0.0 or later
+- npm or yarn package manager
+
+### **Installation Steps**
+
+1. **Clone the project repository**
+
+   ```bash
+   git clone <repository-url>
+   cd celebrity-opinion-website
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. **Configure environment variables**
+
+   ```bash
+   cp .env.example .env.local
+   ```
+
+   Edit the `.env.local` file and set the required environment variables:
+
+   ```
+   NEXT_PUBLIC_API_BASE_URL=your_API_url
+   ```
+
+4. **Start the development server**
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+   Visit **[http://localhost:3000](http://localhost:3000)** to see the website in action.
+
+---
+
+## 📱 **User Guide**
+
+### **Searching for Celebrities**
+
+1. Enter the celebrity’s name in the search bar on the homepage.
+2. Real-time search suggestions will appear.
+3. Click on a search result or press Enter to search.
+
+### **Viewing Celebrity Details**
+
+1. Click on a celebrity from the search results.
+2. You can view the following information:
+   - **Basic Information** (Name, Occupation, Nationality, etc.)
+   - **Opinion Trend Charts**
+   - **Related News**
+   - **Social Media Activity**
+   - **Recommended Related Celebrities**
+
+### **Personal Center Features**
+
+1. Click the profile icon in the top-right corner to access the Personal Center.
+2. You can manage:
+   - **Favorite Celebrities**
+   - **Browsing History**
+   - **Community Interactions**
+
+---
+
+Thank you for using **StarScope**! We look forward to your feedback and suggestions. 🚀
 
 # 观星台 StarScope - 名人舆论风评查询平台
 
@@ -59,16 +150,6 @@ yarn dev
 
 访问 http://localhost:3000 即可看到网站运行效果。
 
-## 🔧 项目技术栈
-
-- **框架**: Next.js 14 (App Router)
-- **UI 组件**: Shadcn/ui
-- **样式**: Tailwind CSS
-- **动画**: Framer Motion
-- **图表**: Recharts
-- **状态管理**: React Hooks
-- **类型检查**: TypeScript
-
 ## 📱 功能使用指南
 
 ### 搜索名人
@@ -95,28 +176,4 @@ yarn dev
    - 浏览历史
    - 社区互动记录
 
-## 🤝 参与贡献
-
-我们欢迎社区贡献，无论是提交 bug、新功能建议还是改进文档。请查看我们的贡献指南了解详情。
-
-## 📄 开源协议
-
-本项目采用 MIT 协议开源，详见 [LICENSE](LICENSE) 文件。
-
-## 📞 联系我们
-
-如有任何问题或建议，欢迎通过以下方式联系我们：
-
-- 提交 Issue
-- 发送邮件至: support@starscope.example.com
-- 关注我们的社交媒体账号
-
----
-
-# 感谢使用观星台！我们期待您的反馈和建议。
-
-### Product Introduction
-
-This product is an internet-based celebrity public opinion inquiry website. Users can search for public figures such as celebrities and politicians to view their opinion trends, related news summaries, and public attention rankings. The website offers categorized browsing, rankings, and community discussions, helping users quickly access relevant information and engage in interactive discussions.
-
-> > > > > > > 2e1e62ff457232262a29cec979e01ea12fb1f575
+感谢使用观星台！我们期待您的反馈和建议。
