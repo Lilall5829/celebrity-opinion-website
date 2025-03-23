@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+
 # 观星台 StarScope - 名人舆论风评查询平台
 
 观星台（StarScope）是一个现代化的名人舆论分析平台，致力于为用户提供全面、客观的名人舆论信息。通过整合多方数据源，我们为用户呈现名人的舆论趋势、相关新闻和社交媒体动态，帮助用户更好地了解公众人物的社会影响力。
@@ -111,4 +113,10 @@ yarn dev
 
 ---
 
-感谢使用观星台！我们期待您的反馈和建议。
+# 感谢使用观星台！我们期待您的反馈和建议。
+
+### Product Introduction
+
+This product is an internet-based celebrity public opinion inquiry website. Users can search for public figures such as celebrities and politicians to view their opinion trends, related news summaries, and public attention rankings. The website offers categorized browsing, rankings, and community discussions, helping users quickly access relevant information and engage in interactive discussions.
+
+> > > > > > > 2e1e62ff457232262a29cec979e01ea12fb1f575
