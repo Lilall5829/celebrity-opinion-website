@@ -1,19 +1,19 @@
 import type {
   ApiResponse,
-  PaginatedResponse,
+  BrowsingHistory,
   Celebrity,
-  OpinionTrendPoint,
-  News,
-  SocialMediaPost,
-  User,
+  CommunityActivity,
   CommunityPost,
   Favorite,
-  BrowsingHistory,
-  CommunityActivity,
+  News,
+  OpinionTrendPoint,
+  PaginatedResponse,
+  SocialMediaPost,
+  User,
 } from "./api-types"
 
 // 设置API基础URL
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.celebrity-opinion.example.com/api/v1"
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "/api"
 
 // 通用请求函数
 async function fetchApi<T>(endpoint: string, options?: RequestInit): Promise<T> {
@@ -31,12 +31,46 @@ async function fetchApi<T>(endpoint: string, options?: RequestInit): Promise<T> 
     ...options,
   })
 
-  if (!response.ok) {
-    const error = await response.json()
-    throw new Error(error.message || "API请求失败")
+  // 检查响应的Content-Type
+  const contentType = response.headers.get("content-type");
+  if (!contentType || !contentType.includes("application/json")) {
+    // 如果在开发环境中，返回模拟数据
+    if (process.env.NODE_ENV === 'development' && endpoint.startsWith('/celebrity/')) {
+      const mockCelebrity = {
+        id: "1",
+        name: "马斯克",
+        english_name: "Elon Musk",
+        profession: "企业家",
+        nationality: "美国",
+        image_url: "/placeholder.svg?height=80&width=80",
+        bio: "特斯拉和SpaceX CEO",
+        keywords: ["科技", "创新", "电动车"],
+      };
+      
+      return {
+        success: true,
+        data: mockCelebrity,
+        message: "Success",
+      } as T;
+    }
+    
+    throw new Error("API返回了非JSON格式的数据");
   }
 
-  return response.json()
+  if (!response.ok) {
+    try {
+      const error = await response.json();
+      throw new Error(error.message || "API请求失败");
+    } catch (e) {
+      throw new Error("API请求失败");
+    }
+  }
+
+  try {
+    return await response.json();
+  } catch (e) {
+    throw new Error("无法解析API返回的JSON数据");
+  }
 }
 
 // 获取认证令牌
@@ -161,7 +195,81 @@ export async function getRelatedCelebrities(id: string): Promise<ApiResponse<Cel
 
 // 获取搜索建议
 export async function getSearchSuggestions(query: string): Promise<ApiResponse<Celebrity[]>> {
-  return fetchApi<ApiResponse<Celebrity[]>>(`/search/suggestions?q=${encodeURIComponent(query)}`)
+  // 在开发环境中使用模拟数据
+  if (process.env.NODE_ENV === 'development') {
+    // 模拟延迟
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
+    // 使用 SearchBar 组件中定义的模拟数据进行过滤
+    const mockData = [
+      {
+        id: "1",
+        name: "马斯克",
+        english_name: "Elon Musk",
+        profession: "企业家",
+        nationality: "美国",
+        image_url: "/placeholder.svg?height=80&width=80",
+        bio: "特斯拉和SpaceX CEO",
+        keywords: ["科技", "创新", "电动车"],
+      },
+      {
+        id: "2",
+        name: "泰勒·斯威夫特",
+        english_name: "Taylor Swift",
+        profession: "歌手",
+        nationality: "美国",
+        image_url: "/placeholder.svg?height=80&width=80",
+        bio: "美国流行音乐歌手",
+        keywords: ["音乐", "流行", "演唱会"],
+      },
+      {
+        id: "3",
+        name: "姚明",
+        english_name: "Yao Ming",
+        profession: "运动员",
+        nationality: "中国",
+        image_url: "/placeholder.svg?height=80&width=80",
+        bio: "前NBA球星，中国篮协主席",
+        keywords: ["篮球", "体育", "慈善"],
+      },
+      {
+        id: "4",
+        name: "刘德华",
+        english_name: "Andy Lau",
+        profession: "演员",
+        nationality: "中国香港",
+        image_url: "/placeholder.svg?height=80&width=80",
+        bio: "香港著名演员、歌手",
+        keywords: ["电影", "音乐", "慈善"],
+      },
+      {
+        id: "5",
+        name: "成龙",
+        english_name: "Jackie Chan",
+        profession: "演员",
+        nationality: "中国香港",
+        image_url: "/placeholder.svg?height=80&width=80",
+        bio: "功夫电影明星",
+        keywords: ["功夫", "电影", "动作"],
+      },
+    ];
+
+    const filteredData = mockData.filter(
+      (celebrity) =>
+        celebrity.name.toLowerCase().includes(query.toLowerCase()) ||
+        celebrity.english_name.toLowerCase().includes(query.toLowerCase()) ||
+        celebrity.profession.toLowerCase().includes(query.toLowerCase())
+    );
+
+    return {
+      success: true,
+      data: filteredData,
+      message: "Success",
+    };
+  }
+
+  // 生产环境使用实际API
+  return fetchApi<ApiResponse<Celebrity[]>>(`/search/suggestions?q=${encodeURIComponent(query)}`);
 }
 
 // 更新用户个人信息

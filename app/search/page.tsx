@@ -5,8 +5,9 @@ import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { searchCelebrities } from "@/lib/api"
 
+// 修改搜索结果页面的标题
 export const metadata: Metadata = {
-  title: "搜索结果 - 名人舆论风评查询网站",
+  title: "搜索结果 - 观星台StarScrope",
   description: "查找您感兴趣的名人、政要等公众人物",
 }
 

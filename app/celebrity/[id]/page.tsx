@@ -1,53 +1,99 @@
-import Image from "next/image"
-import type { Metadata } from "next"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { OpinionTrendChart } from "@/components/opinion-trend-chart"
-import { NewsCard } from "@/components/news-card"
-import { SocialMediaFeed } from "@/components/social-media-feed"
-import { RelatedCelebrities } from "@/components/related-celebrities"
+import { NewsCard } from "@/components/news-card";
+import { OpinionTrendChart } from "@/components/opinion-trend-chart";
+import { RelatedCelebrities } from "@/components/related-celebrities";
+import { SocialMediaFeed } from "@/components/social-media-feed";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   getCelebrityDetails,
-  getCelebrityOpinionTrends,
   getCelebrityNews,
+  getCelebrityOpinionTrends,
   getCelebritySocialMedia,
   getRelatedCelebrities,
-} from "@/lib/api"
+} from "@/lib/api";
+import type { Metadata } from "next";
+import Image from "next/image";
 
 // 这个函数在构建时运行，用于生成静态元数据
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
   try {
-    const response = await getCelebrityDetails(params.id)
-    const celebrity = response.data
+    const response = await getCelebrityDetails(params.id);
+    const celebrity = response.data;
 
     return {
       title: `${celebrity.name} - 名人舆论风评查询`,
       description: `查看${celebrity.name}的舆论趋势、相关新闻及社会影响力`,
-    }
+    };
   } catch (error) {
     return {
       title: "名人详情 - 名人舆论风评查询",
       description: "查看名人的舆论趋势、相关新闻及社会影响力",
-    }
+    };
   }
 }
 
-export default async function CelebrityPage({ params }: { params: { id: string } }) {
-  // 并行获取所有数据
-  const [celebrityResponse, trendsResponse, newsResponse, socialMediaResponse, relatedResponse] = await Promise.all([
-    getCelebrityDetails(params.id),
-    getCelebrityOpinionTrends(params.id),
-    getCelebrityNews(params.id),
-    getCelebritySocialMedia(params.id),
-    getRelatedCelebrities(params.id),
-  ])
+export default async function CelebrityPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  let celebrity;
+  let trends;
+  let news;
+  let socialMedia;
+  let related;
 
-  const celebrity = celebrityResponse.data
-  const trends = trendsResponse.data
-  const news = newsResponse.data.data
-  const socialMedia = socialMediaResponse.data.data
-  const related = relatedResponse.data
+  try {
+    // 并行获取所有数据
+    const [
+      celebrityResponse,
+      trendsResponse,
+      newsResponse,
+      socialMediaResponse,
+      relatedResponse,
+    ] = await Promise.all([
+      getCelebrityDetails(params.id),
+      getCelebrityOpinionTrends(params.id),
+      getCelebrityNews(params.id),
+      getCelebritySocialMedia(params.id),
+      getRelatedCelebrities(params.id),
+    ]);
+
+    celebrity = celebrityResponse.data;
+    trends = trendsResponse.data;
+    news = newsResponse.data.data;
+    socialMedia = socialMediaResponse.data.data;
+    related = relatedResponse.data;
+  } catch (error) {
+    // 如果在开发环境中，使用模拟数据
+    if (process.env.NODE_ENV === "development") {
+      celebrity = {
+        id: params.id,
+        name: "马斯克",
+        english_name: "Elon Musk",
+        profession: "企业家",
+        nationality: "美国",
+        image_url: "/placeholder.svg?height=80&width=80",
+        bio: "特斯拉和SpaceX CEO",
+        keywords: ["科技", "创新", "电动车"],
+      };
+      trends = [
+        { date: "2024-01", value: 75, sentiment: "positive" },
+        { date: "2024-02", value: 82, sentiment: "positive" },
+        { date: "2024-03", value: 78, sentiment: "neutral" },
+      ];
+      news = [];
+      socialMedia = [];
+      related = [];
+    } else {
+      throw error;
+    }
+  }
 
   return (
     <main className="flex min-h-screen flex-col">
@@ -67,7 +113,11 @@ export default async function CelebrityPage({ params }: { params: { id: string }
                     />
                   </div>
                   <h1 className="text-2xl font-bold">{celebrity.name}</h1>
-                  {celebrity.english_name && <p className="text-muted-foreground">{celebrity.english_name}</p>}
+                  {celebrity.english_name && (
+                    <p className="text-muted-foreground">
+                      {celebrity.english_name}
+                    </p>
+                  )}
                   <div className="flex flex-wrap gap-2 mt-2 justify-center">
                     <Badge>{celebrity.profession}</Badge>
                     <Badge variant="outline">{celebrity.nationality}</Badge>
@@ -134,6 +184,5 @@ export default async function CelebrityPage({ params }: { params: { id: string }
         </div>
       </div>
     </main>
-  )
+  );
 }
-

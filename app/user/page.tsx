@@ -8,8 +8,9 @@ import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Clock, Heart, History, MessageSquare, Settings, User } from "lucide-react"
 
+// 修改用户中心页面的标题
 export const metadata: Metadata = {
-  title: "用户中心 - 名人舆论风评查询网站",
+  title: "用户中心 - 观星台StarScrope",
   description: "管理您的个人信息、收藏和浏览历史",
 }
 
